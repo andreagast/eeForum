@@ -1,0 +1,43 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+<ui:composition template="_template.xhtml">
+	<ui:define name="title">eeForum</ui:define>
+	<ui:define name="section">Register a new user</ui:define>
+	<ui:define name="content">
+	Please fill the form. Every field is required.
+	<h:form>
+			<h:panelGrid columns="3">
+			Nickname:
+			<h:inputText id="nick" value="#{registerBacking.nick}"
+					validator="#{registerBacking.checkDuplicateNick}"
+					required="true" />
+				<h:message for="nick" />
+			E-mail:
+			<h:inputText id="mail" value="#{registerBacking.mail}"
+					validator="#{registerBacking.checkDuplicateMail}"
+					required="true" />
+				<h:message for="mail" />
+			Password:
+			<h:inputSecret id="pass1" value="#{registerBacking.pass1}"
+					validator="#{registerBacking.validatePassword1}"
+					required="true" />
+				<h:message for="pass1" />
+			Confirm password:
+			<h:inputSecret id="pass2" value="#{registerBacking.pass2}"
+					validator="#{registerBacking.validatePassword2}"
+					required="true" />
+				<h:message for="pass2" />
+			Register:
+			<h:commandButton action="#{registerBacking.registerNewUser}"
+					value="Register" />
+			</h:panelGrid>
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>

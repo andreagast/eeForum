@@ -1,0 +1,46 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+<ui:composition template="_template.xhtml">
+	<ui:define name="title">eeForum (gash edition)</ui:define>
+	<ui:define name="section"><h:outputText value="#{topicBacking.board.name}" /></ui:define>
+	<ui:define name="metadata">
+		<f:metadata>
+			<f:viewParam name="id" value="#{topicBacking.boardId}" />
+		</f:metadata>
+		<f:event type="preRenderView"
+			listener="#{topicBacking.loadOrRedirect}" />
+	</ui:define>
+	<ui:define name="content">
+		<h:link outcome="index" value="&lt; Back"/><hr/>
+		<h:dataTable value="#{topicBacking.topics}" var="t" border="1" width="100%">
+			<h:column width="50%">
+				<f:facet name="header">Topic's title</f:facet>
+				<h:link outcome = "post.xhtml" value="#{t.title}">
+					<f:param name="id" value="#{t.id}"/>
+				</h:link>
+			</h:column>
+			<h:column width="25%">
+				<f:facet name="header">Wrote by</f:facet>
+				<h:outputText value="#{t.creator.nickname}"/>
+			</h:column>
+			<h:column>
+				<f:facet name="header">Post count</f:facet>
+				<h:outputText value="#{t.postsCount}"/>
+			</h:column>
+		</h:dataTable>
+		<c:if test="#{templateBacking.loggedIn}">
+			<hr/>
+			<h:link outcome="addTopic" value="New topic">
+				<f:param name="id" value="#{topicBacking.boardId}"/>
+			</h:link>
+		</c:if>
+	</ui:define>
+</ui:composition>
+</html>

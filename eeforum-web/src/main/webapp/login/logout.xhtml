@@ -1,0 +1,26 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+<ui:composition template="_template.xhtml">
+	<ui:define name="section">Logout</ui:define>
+	<ui:define name="metadata">
+	<ui:remove>
+		<f:event type="preRenderView" listener="#{logoutBacking.checkLogin}"/>
+		</ui:remove>
+	</ui:define>
+	<ui:define name="content">
+	Are you sure you want to logout?<br/>
+	<h:form>
+		<h:panelGrid columns="2">
+			<h:commandButton value="Logout" action="#{logoutBacking.doLogout}"/>
+			<h:button value="Bring me back" outcome="../index.xhtml"/>
+		</h:panelGrid>
+	</h:form>
+	</ui:define>
+</ui:composition>
+</html>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd"
+	version="2.0" xmlns="http://java.sun.com/xml/ns/persistence">
+	<persistence-unit name="eeForumPU" transaction-type="JTA">
+		<jta-data-source>jdbc/eeforum</jta-data-source>
+		<class>it.gas.eeforum.entities.Board</class>
+		<class>it.gas.eeforum.entities.Member</class>
+		<class>it.gas.eeforum.entities.Post</class>
+		<class>it.gas.eeforum.entities.Topic</class>
+		<properties>
+			<property name="eclipselink.logging.level" value="FINE"/>
+			<property name="eclipselink.ddl-generation" value="none"/>
+		</properties>
+	</persistence-unit>
+</persistence>

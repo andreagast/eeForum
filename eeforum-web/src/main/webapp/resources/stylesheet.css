@@ -1,0 +1,19 @@
+@CHARSET "UTF-8";
+
+#loginDetails {
+	float: right;
+	display: block;
+	clear: both;
+}
+
+.usercolumn {
+	text-align: center;
+}
+
+.textcolumn {
+	width: 100%;
+}
+
+.nickname {
+	font-weight: bold;
+}

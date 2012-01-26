@@ -1,0 +1,30 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+<ui:composition template="_template.xhtml">
+	<ui:define name="section">Login</ui:define>
+	<ui:define name="metadata">
+		<f:event type="preRenderView" listener="#{loginBacking.redirectIfLogged}"/>
+	</ui:define>
+	<ui:define name="content">
+	Login using your credentials.<br/>
+	<h:form>
+		<h:panelGrid columns="3">
+		E-mail:
+		<h:inputText id="mail" value="#{loginBacking.mail}" required="true"/>
+		<h:message for="mail"/>
+		Password:
+		<h:inputSecret id="pass" value="#{loginBacking.pass}" required="true"/>
+		<h:message for="pass"/>
+		<h:button outcome="register" value="Register"/>
+		<h:commandButton value="Login" action="#{loginBacking.doLogin}"/>
+		</h:panelGrid>
+	</h:form>
+	</ui:define>
+</ui:composition>
+</html>

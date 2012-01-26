@@ -1,0 +1,32 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+<ui:composition template="_template.xhtml">
+	<ui:define name="title">eeForum (gash edition)</ui:define>
+	<ui:define name="metadata">
+		<f:event type="preRenderView" listener="#{indexBacking.loadBoards}" />
+	</ui:define>
+	<ui:define name="content">
+	
+	<h:dataTable value="#{indexBacking.boards}" var="b" border="1" width="100%">
+		<h:column width="75%">
+			<f:facet name="header">Title</f:facet>
+			<h:link outcome="topic.xhtml">
+				<f:param name="id" value="#{b.id}"/>
+				#{b.name}
+			</h:link>
+		</h:column>
+		<h:column width="25%">
+			<f:facet name="header">Topic count</f:facet>
+			#{b.topicsCount}
+		</h:column>
+	</h:dataTable>
+
+	</ui:define>
+</ui:composition>
+</html>

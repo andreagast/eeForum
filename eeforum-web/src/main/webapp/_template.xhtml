@@ -1,0 +1,44 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+          "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jsp/jstl/core">
+<ui:insert name="metadata" />
+<h:head>
+	<title><ui:insert name="title">eeForum</ui:insert></title>
+	<h:outputStylesheet name="stylesheet.css"/>
+</h:head>
+
+<h:body>
+	<c:if test="#{templateBacking.outsideLogin}">
+		<div id="loginDetails">
+			<c:if test="#{templateBacking.loggedIn}">
+				<h:outputText value="#{templateBacking.nickname}"/>
+				<h:button outcome="login/logout" value="Logout"/>
+				<c:if test="#{templateBacking.admin}">
+					<h:button outcome="admin/index" value="Admin"/>
+				</c:if>
+			</c:if>
+			<c:if test="#{! templateBacking.loggedIn}">
+				<h:button outcome="login/login" value="Login"/>
+			</c:if>
+		</div>
+	</c:if>
+	<h1>
+		<ui:insert name="title">eeForum</ui:insert>
+	</h1>
+	
+	<h2>
+		<ui:insert name="section"></ui:insert>
+	</h2>
+	<hr />
+	<ui:insert name="content">Content place-holder</ui:insert>
+	<hr />
+	<div align="center">
+		eeForum made by bkmastor.<br /> <i>WORK IN PROGRESS</i>
+	</div>
+
+</h:body>
+
+</html>

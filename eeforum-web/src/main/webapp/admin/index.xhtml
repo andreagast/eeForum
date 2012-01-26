@@ -1,0 +1,37 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+<ui:composition template="_template.xhtml">
+	<ui:define name="header">eeForum - for admins only</ui:define>
+	<ui:define name="section">Control panel</ui:define>
+	<ui:define name="content">
+		<h:form>
+			Add a board:
+			<h:inputText value="#{adminBacking.newBoardName}"/>
+			<h:commandButton value="Add" action="#{adminBacking.addAndReturn}"/>
+		</h:form>
+		<hr/>
+		<h:form>
+		<h:dataTable value="#{adminBacking.bList}" binding="#{adminBacking.tbl}" var="b" border="1">
+			<h:column>
+				<f:facet name="header">Boards title</f:facet>
+				<h:outputText value="#{b.name}"/>
+			</h:column>
+			<h:column>
+				<f:facet name="header">Delete?</f:facet>
+				<h:selectBooleanCheckbox value="#{adminBacking.delSelection}"/>
+				<f:facet name="footer">
+					<h:commandButton value="Delete" action="admin?faces-redirect=true"/>
+				</f:facet>
+			</h:column>
+		</h:dataTable>
+		</h:form>
+	</ui:define>
+	
+</ui:composition>
+</html>
