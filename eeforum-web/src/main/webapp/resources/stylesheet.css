@@ -1,6 +1,6 @@
 @CHARSET "UTF-8";
 
-#loginDetails {
+.loginDetails {
 	float: right;
 	display: block;
 	clear: both;
@@ -16,4 +16,13 @@
 
 .nickname {
 	font-weight: bold;
+}
+
+.adminMenu {
+	float: left;
+	width: 200px;
+}
+
+.adminContent {
+	margin-left: 200px;
 }

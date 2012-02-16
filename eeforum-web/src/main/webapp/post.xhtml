@@ -8,11 +8,11 @@
 	xmlns:c="http://java.sun.com/jsp/jstl/core">
 
 <ui:composition template="_template.xhtml">
-	<ui:define name="title">eeForum (gash edition)</ui:define>
-	<ui:define name="section">#{postBacking.board.name} - #{postBacking.topic.title}</ui:define>
+	<ui:define name="section">#{postBacking.board.name}: #{postBacking.topic.title}</ui:define>
 	<ui:define name="metadata">
 		<f:metadata>
 			<f:viewParam name="id" value="#{postBacking.topicId}" />
+			<f:viewParam name="page" value="#{postBacking.page}" />
 		</f:metadata>
 		<f:event type="preRenderView" listener="#{postBacking.checkId}" />
 	</ui:define>
@@ -37,6 +37,19 @@
 				<h:outputText value="#{p.content}" />
 			</h:column>
 		</h:dataTable>
+		<c:if test="#{postBacking.page &gt; 0}">
+		<h:link outcome="post" value="&lt; Prev">
+			<f:param name="id" value="#{postBacking.topicId}" />
+			<f:param name="page" value="#{postBacking.page - 1}" />
+		</h:link>
+		</c:if>
+			#{postBacking.page + 1} of #{postBacking.totalPages}
+		<c:if test="#{postBacking.page &lt; postBacking.totalPages}">
+		<h:link outcome="post" value="Next &gt;">
+			<f:param name="id" value="#{postBacking.topicId}" />
+			<f:param name="page" value="#{postBacking.page + 1}" />
+		</h:link>
+		</c:if>
 		<c:if test="#{templateBacking.loggedIn}">
 			<hr />
 			<h:form>

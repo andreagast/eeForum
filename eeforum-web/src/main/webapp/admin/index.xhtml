@@ -7,31 +7,10 @@
 	xmlns:f="http://java.sun.com/jsf/core">
 
 <ui:composition template="_template.xhtml">
-	<ui:define name="header">eeForum - for admins only</ui:define>
-	<ui:define name="section">Control panel</ui:define>
 	<ui:define name="content">
-		<h:form>
-			Add a board:
-			<h:inputText value="#{adminBacking.newBoardName}"/>
-			<h:commandButton value="Add" action="#{adminBacking.addAndReturn}"/>
-		</h:form>
-		<hr/>
-		<h:form>
-		<h:dataTable value="#{adminBacking.bList}" binding="#{adminBacking.tbl}" var="b" border="1">
-			<h:column>
-				<f:facet name="header">Boards title</f:facet>
-				<h:outputText value="#{b.name}"/>
-			</h:column>
-			<h:column>
-				<f:facet name="header">Delete?</f:facet>
-				<h:selectBooleanCheckbox value="#{adminBacking.delSelection}"/>
-				<f:facet name="footer">
-					<h:commandButton value="Delete" action="admin?faces-redirect=true"/>
-				</f:facet>
-			</h:column>
-		</h:dataTable>
-		</h:form>
+	    <div style="text-align: center">
+	    	<h1>Select an option in the menu.</h1>
+	    </div>
 	</ui:define>
-	
 </ui:composition>
 </html>

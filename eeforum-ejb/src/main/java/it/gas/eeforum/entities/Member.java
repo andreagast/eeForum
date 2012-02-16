@@ -7,14 +7,17 @@ import java.security.NoSuchAlgorithmException;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 @Entity
-@Table(name = "members")
+@Table(uniqueConstraints = @UniqueConstraint(columnNames = { "email" }))
 @NamedQueries({
 		@NamedQuery(name = "member.login", query = "SELECT m FROM Member m WHERE m.email = :user AND m.password = :pass"),
 		@NamedQuery(name = "member.nick", query = "SELECT m FROM Member m WHERE m.nickname = :nick"),
@@ -22,9 +25,11 @@ import javax.persistence.Table;
 public class Member implements Serializable {
 	private static final long serialVersionUID = 1L;
 
+	private int id;
 	private String email;
 	private String emailHash;
 	private String password;
+	private String salt;
 	private String nickname;
 	private boolean admin;
 	private boolean banned;
@@ -48,6 +53,15 @@ public class Member implements Serializable {
 	}
 
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
 	@Column(length = 255, nullable = false)
 	public String getEmail() {
 		return email;
@@ -61,7 +75,7 @@ public class Member implements Serializable {
 	public String getEmailHash() {
 		return emailHash;
 	}
-	
+
 	public void setEmailHash(String emailHash) {
 		this.emailHash = emailHash;
 	}
@@ -73,6 +87,14 @@ public class Member implements Serializable {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	public String getSalt() {
+		return salt;
+	}
+
+	public void setSalt(String salt) {
+		this.salt = salt;
 	}
 
 	@Column(length = 25, nullable = false, unique = true)

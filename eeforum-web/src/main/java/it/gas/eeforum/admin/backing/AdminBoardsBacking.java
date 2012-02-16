@@ -1,48 +1,29 @@
-package it.gas.eeforum.backing;
+package it.gas.eeforum.admin.backing;
 
 import it.gas.eeforum.beans.ForumEJB;
-import it.gas.eeforum.beans.LoginEJB;
 import it.gas.eeforum.entities.Board;
-import it.gas.eeforum.exceptions.NotLoggedInException;
 
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import javax.faces.component.UIData;
-import javax.faces.context.FacesContext;
-import javax.faces.event.ComponentSystemEvent;
 import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
 
 @ManagedBean
 @RequestScoped
-public class AdminBacking {
+public class AdminBoardsBacking {
 	@EJB
 	private ForumEJB fEJB;
-	@EJB
-	private LoginEJB lEJB;
 	private UIData tbl;
 	private String newBoardName;
-
-	public void checkIfAdmin(ComponentSystemEvent cse) {
-		try {
-			if (lEJB.getMember().isAdmin())
-				return;
-		} catch (NotLoggedInException e) {
-			System.err.println(e.getMessage());
-		}
-		FacesContext fc = FacesContext.getCurrentInstance();
-		fc.getApplication().getNavigationHandler()
-				.handleNavigation(fc, "", "../index.xhtml?faces-redirect=true");
-
-	}
 
 	public void addAndReturn() {
 		fEJB.addBoard(newBoardName);
 	}
 
-	public DataModel<Board> getbList() {
-		// you need to do this otherwise setDelSelection() don't get called
+	public DataModel<Board> getBoardList() {
+		// you need to do this otherwise setDelSelection() won't get called
 		return new ListDataModel<Board>(fEJB.getBoards());
 	}
 

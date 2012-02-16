@@ -12,10 +12,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
-import javax.persistence.Table;
 
 @Entity
-@Table(name = "boards")
 @NamedQuery(name = "board.all", query = "SELECT b FROM Board b")
 public class Board implements Serializable {
 	private static final long serialVersionUID = 1L;

@@ -10,7 +10,7 @@
 		<class>it.gas.eeforum.entities.Topic</class>
 		<properties>
 			<property name="eclipselink.logging.level" value="FINE"/>
-			<property name="eclipselink.ddl-generation" value="none"/>
+			<property name="eclipselink.ddl-generation" value="create-tables"/>
 		</properties>
 	</persistence-unit>
 </persistence>

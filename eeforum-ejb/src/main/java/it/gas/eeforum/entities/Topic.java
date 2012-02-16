@@ -13,10 +13,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
-import javax.persistence.Table;
 
 @Entity
-@Table(name = "topics")
 @NamedQuery(name = "topic.byId", query = "SELECT t FROM Topic t WHERE t.board.id = ?1")
 public class Topic implements Serializable {
 	private static final long serialVersionUID = 1L;

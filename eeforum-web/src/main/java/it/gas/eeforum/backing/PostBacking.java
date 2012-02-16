@@ -23,6 +23,8 @@ public class PostBacking {
 	@EJB
 	private TopicEJB tEJB;
 	private int topicId;
+	private int page;
+	private long totalPages;
 	private List<Post> posts;
 	private Topic topic;
 	private Board board;
@@ -30,8 +32,9 @@ public class PostBacking {
 	public void checkId(ComponentSystemEvent cse) {
 		try {
 			topic = tEJB.getTopic(topicId);
-			posts = pEJB.getPosts(getTopicId());
+			posts = pEJB.getPosts(getTopicId(), page);
 			board = topic.getBoard();
+			totalPages = pEJB.getPostsCount(topicId) / 5;
 		} catch (InvalidIdException e) {
 			FacesContext fc = FacesContext.getCurrentInstance();
 			fc.getApplication()
@@ -49,6 +52,18 @@ public class PostBacking {
 		this.topicId = topicId;
 	}
 
+	public int getPage() {
+		return page;
+	}
+
+	public void setPage(int page) {
+		this.page = page;
+	}
+
+	public long getTotalPages() {
+		return totalPages + 1;
+	}
+
 	public List<Post> getPosts() {
 		return posts;
 	}
@@ -59,10 +74,6 @@ public class PostBacking {
 
 	public Board getBoard() {
 		return board;
-	}
-
-	public void setBoard(Board board) {
-		this.board = board;
 	}
 
 }

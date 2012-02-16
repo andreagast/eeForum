@@ -22,10 +22,18 @@ public class PostEJB {
 	@EJB
 	private LoginEJB lEJB;
 
-	public List<Post> getPosts(int id) {
+	public List<Post> getPosts(int id, int page) {
 		TypedQuery<Post> query = em.createNamedQuery("post.byId", Post.class);
 		query.setParameter(1, id);
+		query.setMaxResults(5);
+		query.setFirstResult(page * 5);
 		return query.getResultList();
+	}
+	
+	public long getPostsCount(int id) {
+		TypedQuery<Long> query = em.createNamedQuery("post.count.byId", Long.class);
+		query.setParameter(1, id);
+		return query.getSingleResult();
 	}
 
 	public void addPost(int tId, String content) throws NotLoggedInException,
