@@ -68,7 +68,7 @@ public class Post implements Serializable {
 	}
 
 	@ManyToOne(optional = false)
-	@JoinColumn(name = "topicid", nullable = false)
+	@JoinColumn(name = "topic", nullable = false)
 	public Topic getTopic() {
 		return topic;
 	}

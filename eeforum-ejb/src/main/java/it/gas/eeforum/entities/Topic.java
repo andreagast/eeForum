@@ -73,7 +73,7 @@ public class Topic implements Serializable {
 	}
 
 	@ManyToOne(optional = false)
-	@JoinColumn(name = "boardid", nullable = false)
+	@JoinColumn(name = "board", nullable = false)
 	public Board getBoard() {
 		return board;
 	}

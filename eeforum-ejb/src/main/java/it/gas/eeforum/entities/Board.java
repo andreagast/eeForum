@@ -51,7 +51,7 @@ public class Board implements Serializable {
 		this.topicsCount = topicsCount;
 	}
 
-	@JoinTable(name = "operators", joinColumns = @JoinColumn(name = "board"), inverseJoinColumns = @JoinColumn(name = "member"))
+	@JoinTable(name = "operator", joinColumns = @JoinColumn(name = "board"), inverseJoinColumns = @JoinColumn(name = "member"))
 	public List<Member> getOperators() {
 		return operators;
 	}
