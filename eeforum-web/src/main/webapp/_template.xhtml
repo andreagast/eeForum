@@ -14,7 +14,7 @@
 	<c:if test="#{templateBacking.outsideLogin}">
 		<div class="loginDetails">
 			<c:if test="#{templateBacking.loggedIn}">
-				<h:outputText value="#{templateBacking.nickname}"/>
+				<h:outputText value="#{templateBacking.nickname}"/>&nbsp;
 				<h:button outcome="login/logout" value="Logout"/>
 				<c:if test="#{templateBacking.admin}">
 					<h:button outcome="admin/index" value="Admin"/>

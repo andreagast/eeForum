@@ -1,7 +1,6 @@
 package it.gas.eeforum.backing;
 
 import it.gas.eeforum.beans.LoginEJB;
-import it.gas.eeforum.exceptions.MemberNotFoundException;
 import it.gas.eeforum.validation.Email;
 
 import javax.ejb.EJB;
@@ -11,6 +10,10 @@ import javax.faces.bean.RequestScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.validator.ValidatorException;
+
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.AuthenticationException;
+import org.apache.shiro.authc.UsernamePasswordToken;
 
 @ManagedBean
 @RequestScoped
@@ -23,9 +26,11 @@ public class RegisterBacking {
 	public String registerNewUser() {
 		try {
 			lEJB.register(nick, mail, pass1);
-			lEJB.login(mail, pass1);
+			UsernamePasswordToken token = new UsernamePasswordToken(mail, pass1.toCharArray(), true);
+			SecurityUtils.getSubject().login(token);
 			return "../index.xhtml?faces-redirect=true";
-		} catch (MemberNotFoundException e) {
+		} catch (AuthenticationException e) {
+			//TODO think something better
 			return "login.xhtml?faces-redirect=true";
 		}
 	}

@@ -37,19 +37,15 @@
 				<h:outputText value="#{p.content}" />
 			</h:column>
 		</h:dataTable>
-		<c:if test="#{postBacking.page &gt; 0}">
-		<h:link outcome="post" value="&lt; Prev">
+		<h:link outcome="post" value="&lt; Prev" rendered="#{postBacking.prevEnabled}">
 			<f:param name="id" value="#{postBacking.topicId}" />
 			<f:param name="page" value="#{postBacking.page - 1}" />
 		</h:link>
-		</c:if>
 			#{postBacking.page + 1} of #{postBacking.totalPages}
-		<c:if test="#{postBacking.page &lt; postBacking.totalPages}">
-		<h:link outcome="post" value="Next &gt;">
+		<h:link outcome="post" value="Next &gt;" rendered="#{postBacking.nextEnabled}">
 			<f:param name="id" value="#{postBacking.topicId}" />
 			<f:param name="page" value="#{postBacking.page + 1}" />
 		</h:link>
-		</c:if>
 		<c:if test="#{templateBacking.loggedIn}">
 			<hr />
 			<h:form>

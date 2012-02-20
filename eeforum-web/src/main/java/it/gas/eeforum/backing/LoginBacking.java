@@ -1,25 +1,23 @@
 package it.gas.eeforum.backing;
 
-import it.gas.eeforum.beans.LoginEJB;
-import it.gas.eeforum.exceptions.MemberNotFoundException;
-
-import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ComponentSystemEvent;
 
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.AuthenticationException;
+import org.apache.shiro.authc.UsernamePasswordToken;
+
 @ManagedBean
 @RequestScoped
 public class LoginBacking {
-	@EJB
-	private LoginEJB lEJB;
-
 	private String mail, pass;
+	private boolean rememberMe;
 
 	public void redirectIfLogged(ComponentSystemEvent cse) {
-		if (lEJB.isLoggedIn()) {
+		if (SecurityUtils.getSubject().isAuthenticated()) {
 			FacesContext fc = FacesContext.getCurrentInstance();
 			fc.getApplication().getNavigationHandler()
 					.handleNavigation(fc, null, "../index.xhtml?faces-redirect=true");
@@ -28,19 +26,15 @@ public class LoginBacking {
 
 	public String doLogin() {
 		try {
-			lEJB.login(mail, pass);
+			UsernamePasswordToken token = new UsernamePasswordToken(mail, pass.toCharArray(), rememberMe);
+			SecurityUtils.getSubject().login(token);
 			return "../index.xhtml?faces-redirect=true";
-		} catch (MemberNotFoundException e) {
+		} catch (AuthenticationException e) {
 			FacesContext fc = FacesContext.getCurrentInstance();
 			fc.addMessage(null, new FacesMessage(
 					"Login not recognized. Try again."));
 		}
 		return null;
-	}
-
-	public String doLogout() {
-		lEJB.logout();
-		return "../index.xhtml?faces-redirect=true";
 	}
 
 	public String getMail() {
@@ -57,6 +51,14 @@ public class LoginBacking {
 
 	public void setPass(String pass) {
 		this.pass = pass;
+	}
+
+	public boolean isRememberMe() {
+		return rememberMe;
+	}
+
+	public void setRememberMe(boolean rememberMe) {
+		this.rememberMe = rememberMe;
 	}
 
 }

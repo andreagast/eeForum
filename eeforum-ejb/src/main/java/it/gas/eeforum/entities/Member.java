@@ -19,9 +19,9 @@ import javax.persistence.UniqueConstraint;
 @Entity
 @Table(uniqueConstraints = @UniqueConstraint(columnNames = { "email" }))
 @NamedQueries({
-		@NamedQuery(name = "member.login", query = "SELECT m FROM Member m WHERE m.email = :user AND m.password = :pass"),
-		@NamedQuery(name = "member.nick", query = "SELECT m FROM Member m WHERE m.nickname = :nick"),
-		@NamedQuery(name = "member.mail", query = "SELECT m FROM Member m WHERE m.email = :mail") })
+	@NamedQuery(name = "member.get", query = "SELECT m FROM Member m WHERE m.email = :mail"),
+	@NamedQuery(name = "member.nick", query = "SELECT m FROM Member m WHERE m.nickname = :nick")
+})
 public class Member implements Serializable {
 	private static final long serialVersionUID = 1L;
 

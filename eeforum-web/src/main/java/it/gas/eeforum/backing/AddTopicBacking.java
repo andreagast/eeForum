@@ -1,7 +1,6 @@
 package it.gas.eeforum.backing;
 
 import it.gas.eeforum.beans.ForumEJB;
-import it.gas.eeforum.beans.LoginEJB;
 import it.gas.eeforum.beans.TopicEJB;
 import it.gas.eeforum.entities.Topic;
 import it.gas.eeforum.exceptions.InvalidIdException;
@@ -13,6 +12,8 @@ import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ComponentSystemEvent;
 
+import org.apache.shiro.SecurityUtils;
+
 @ManagedBean
 @RequestScoped
 public class AddTopicBacking {
@@ -20,8 +21,6 @@ public class AddTopicBacking {
 	private ForumEJB fEJB;
 	@EJB
 	private TopicEJB tEJB;
-	@EJB
-	private LoginEJB lEJB;
 	private int boardId;
 	private String postText;
 	private String topicTitle;
@@ -33,7 +32,7 @@ public class AddTopicBacking {
 		} catch (InvalidIdException e) {
 			continu = false;
 		}
-		continu &= lEJB.isLoggedIn();
+		continu &= SecurityUtils.getSubject().isAuthenticated();
 		if (continu == false) {
 			FacesContext fc = FacesContext.getCurrentInstance();
 			fc.getApplication().getNavigationHandler()

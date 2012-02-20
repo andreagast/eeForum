@@ -1,5 +1,9 @@
 @CHARSET "UTF-8";
 
+body {
+	font-family: helvetica;
+}
+
 .loginDetails {
 	float: right;
 	display: block;

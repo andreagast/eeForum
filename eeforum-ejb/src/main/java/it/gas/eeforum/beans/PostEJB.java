@@ -14,6 +14,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
+import org.apache.shiro.SecurityUtils;
+
 @Stateless
 public class PostEJB {
 
@@ -38,7 +40,7 @@ public class PostEJB {
 
 	public void addPost(int tId, String content) throws NotLoggedInException,
 			InvalidIdException {
-		if (!lEJB.isLoggedIn())
+		if (!SecurityUtils.getSubject().isAuthenticated())
 			throw new NotLoggedInException();
 		Topic t = em.find(Topic.class, tId);
 		if (t == null)

@@ -1,12 +1,14 @@
 package it.gas.eeforum.backing;
 
 import it.gas.eeforum.beans.LoginEJB;
-import it.gas.eeforum.exceptions.NotLoggedInException;
+import it.gas.eeforum.entities.Member;
 
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
+
+import org.apache.shiro.SecurityUtils;
 
 @ManagedBean
 @RequestScoped
@@ -15,25 +17,18 @@ public class TemplateBacking {
 	private LoginEJB lEJB;
 
 	public boolean isLoggedIn() {
-		return lEJB.isLoggedIn();
+		return SecurityUtils.getSubject().isAuthenticated();
 	}
 
 	public String getNickname() {
-		try {
-			return lEJB.getMember().getNickname();
-		} catch (NotLoggedInException e) {
-			System.err.println(e.getMessage());
-		}
-		return "guest";
+		Member m = lEJB.getMember();
+		if (m == null)
+			return  "guest";
+		return lEJB.getMember().getNickname();
 	}
 	
 	public boolean isAdmin() {
-		try {
-			return lEJB.getMember().isAdmin();
-		} catch (NotLoggedInException e) {
-			System.err.println(e.getMessage());
-		}
-		return false;
+		return SecurityUtils.getSubject().hasRole("admin");
 	}
 
 	/** Force the template to not show the login form when inside the login

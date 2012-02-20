@@ -1,49 +1,34 @@
 package it.gas.eeforum.beans;
 
 import it.gas.eeforum.entities.Member;
-import it.gas.eeforum.exceptions.MemberNotFoundException;
-import it.gas.eeforum.exceptions.NotLoggedInException;
 
 import java.util.List;
 
-import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
+
+import org.apache.shiro.SecurityUtils;
 
 @Stateless
 public class LoginEJB {
 	@PersistenceContext(unitName = "eeForumPU")
 	private EntityManager em;
-	@EJB
-	private LoginDetailsEJB ldEJB;
-
-	public void login(String user, String pass) throws MemberNotFoundException {
-		TypedQuery<Member> query = em.createNamedQuery("member.login",
-				Member.class);
-		query.setParameter("user", user);
-		query.setParameter("pass", pass);
+	
+	public Member getMember() {
+		Object user = SecurityUtils.getSubject().getPrincipal();
+		if (user == null)
+			return null;
+		TypedQuery<Member> query = em.createNamedQuery("member.get", Member.class);
+		query.setParameter("mail", user);
 		try {
-			ldEJB.setMember(query.getSingleResult());
-		} catch (Exception e) {
+			return query.getSingleResult();
+		} catch (NoResultException e) {
 			System.err.println(e.getMessage());
-			throw new MemberNotFoundException();
+			return null;
 		}
-	}
-
-	public void logout() {
-		ldEJB.setMember(null);
-	}
-
-	public boolean isLoggedIn() {
-		return ldEJB.getMember() != null;
-	}
-
-	public Member getMember() throws NotLoggedInException {
-		if (ldEJB.getMember() == null)
-			throw new NotLoggedInException();
-		return ldEJB.getMember();
 	}
 
 	public void register(String nick, String mail, String pass) {
@@ -55,7 +40,7 @@ public class LoginEJB {
 	}
 	
 	public boolean checkEmailIfExist(String email) {
-		TypedQuery<Member> q = em.createNamedQuery("member.mail", Member.class);
+		TypedQuery<Member> q = em.createNamedQuery("member.get", Member.class);
 		q.setParameter("mail", email);
 		List<Member> l = q.getResultList();
 		if (l.size() > 0)

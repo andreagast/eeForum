@@ -18,6 +18,7 @@ import javax.faces.event.ComponentSystemEvent;
 @ManagedBean
 @RequestScoped
 public class PostBacking {
+	private static int POST_PER_PAGE = 5;
 	@EJB
 	private PostEJB pEJB;
 	@EJB
@@ -28,13 +29,21 @@ public class PostBacking {
 	private List<Post> posts;
 	private Topic topic;
 	private Board board;
+	private boolean nextEnabled, prevEnabled;
 
 	public void checkId(ComponentSystemEvent cse) {
 		try {
 			topic = tEJB.getTopic(topicId);
 			posts = pEJB.getPosts(getTopicId(), page);
 			board = topic.getBoard();
-			totalPages = pEJB.getPostsCount(topicId) / 5;
+			long postsCount = pEJB.getPostsCount(topicId);
+			totalPages = postsCount / POST_PER_PAGE;
+			if (postsCount % POST_PER_PAGE != 0)
+				totalPages++;
+			System.out.println("page: " + page);
+			System.out.println("totalPages: " + totalPages);
+			prevEnabled = page > 0;
+			nextEnabled = (page + 1) < totalPages;
 		} catch (InvalidIdException e) {
 			FacesContext fc = FacesContext.getCurrentInstance();
 			fc.getApplication()
@@ -61,7 +70,7 @@ public class PostBacking {
 	}
 
 	public long getTotalPages() {
-		return totalPages + 1;
+		return totalPages;
 	}
 
 	public List<Post> getPosts() {
@@ -74,6 +83,14 @@ public class PostBacking {
 
 	public Board getBoard() {
 		return board;
+	}
+
+	public boolean isNextEnabled() {
+		return nextEnabled;
+	}
+
+	public boolean isPrevEnabled() {
+		return prevEnabled;
 	}
 
 }

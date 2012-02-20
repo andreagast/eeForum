@@ -18,11 +18,18 @@
 		E-mail:
 		<h:inputText id="mail" value="#{loginBacking.mail}" required="true"/>
 		<h:message for="mail"/>
+		
 		Password:
 		<h:inputSecret id="pass" value="#{loginBacking.pass}" required="true"/>
 		<h:message for="pass"/>
+		
+		Remember me:
+		<h:selectBooleanCheckbox value="#{loginBacking.rememberMe}"/>
+		&nbsp;
+		
 		<h:button outcome="register" value="Register"/>
 		<h:commandButton value="Login" action="#{loginBacking.doLogin}"/>
+		&nbsp;
 		</h:panelGrid>
 	</h:form>
 	</ui:define>

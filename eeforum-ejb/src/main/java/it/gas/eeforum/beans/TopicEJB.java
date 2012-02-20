@@ -15,6 +15,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
+import org.apache.shiro.SecurityUtils;
+
 @Stateless
 public class TopicEJB {
 
@@ -40,7 +42,7 @@ public class TopicEJB {
 
 	public Topic addTopic(int boardId, String title, String content)
 			throws NotLoggedInException, InvalidIdException {
-		if (!lEJB.isLoggedIn())
+		if (!SecurityUtils.getSubject().isAuthenticated())
 			throw new NotLoggedInException();
 		Board b = fEJB.getBoard(boardId);
 		if (b == null)
