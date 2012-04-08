@@ -1,7 +1,6 @@
 package it.gas.eeforum.backing;
 
 import it.gas.eeforum.beans.LoginEJB;
-import it.gas.eeforum.entities.Member;
 
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
@@ -21,10 +20,7 @@ public class TemplateBacking {
 	}
 
 	public String getNickname() {
-		Member m = lEJB.getMember();
-		if (m == null)
-			return  "guest";
-		return lEJB.getMember().getNickname();
+		return lEJB.getNickname();
 	}
 	
 	public boolean isAdmin() {

@@ -11,6 +11,8 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
 import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.session.Session;
+import org.apache.shiro.subject.Subject;
 
 @Stateless
 public class LoginEJB {
@@ -29,6 +31,19 @@ public class LoginEJB {
 			System.err.println(e.getMessage());
 			return null;
 		}
+	}
+	
+	public String getNickname() {
+		Subject s = SecurityUtils.getSubject();
+		if (! s.isAuthenticated())
+			return "guest";
+		Session session = s.getSession();
+		String nick = (String) session.getAttribute("nickname");
+		if (nick == null) {
+			nick = getMember().getNickname();
+			session.setAttribute("nickname", nick);
+		}
+		return nick;
 	}
 
 	public void register(String nick, String mail, String pass) {

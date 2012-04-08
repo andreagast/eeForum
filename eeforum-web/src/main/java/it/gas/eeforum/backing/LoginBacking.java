@@ -5,10 +5,13 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ComponentSystemEvent;
+import javax.servlet.ServletRequest;
 
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.web.util.SavedRequest;
+import org.apache.shiro.web.util.WebUtils;
 
 @ManagedBean
 @RequestScoped
@@ -26,9 +29,18 @@ public class LoginBacking {
 
 	public String doLogin() {
 		try {
+			FacesContext cx = FacesContext.getCurrentInstance();
 			UsernamePasswordToken token = new UsernamePasswordToken(mail, pass.toCharArray(), rememberMe);
 			SecurityUtils.getSubject().login(token);
-			return "../index.xhtml?faces-redirect=true";
+			SavedRequest s = WebUtils.getAndClearSavedRequest((ServletRequest) cx.getExternalContext().getRequest());
+			//NOT WORKING,DISCOVER WHY
+			if (s == null) {
+				System.out.println(cx.getExternalContext().getRequest());
+				return "../index.xhtml?faces-redirect=true";
+			} else {
+				System.out.println(s.getRequestUrl());
+				return s.getRequestUrl();
+			}
 		} catch (AuthenticationException e) {
 			FacesContext fc = FacesContext.getCurrentInstance();
 			fc.addMessage(null, new FacesMessage(

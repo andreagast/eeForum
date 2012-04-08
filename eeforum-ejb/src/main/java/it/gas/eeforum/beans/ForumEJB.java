@@ -25,6 +25,7 @@ public class ForumEJB {
 	
 	public Board getBoard(int id) throws InvalidIdException {
 		Board b = em.find(Board.class, id);
+		System.out.println("This is b: " + b);
 		if (b == null)
 			throw new InvalidIdException();
 		return b;
